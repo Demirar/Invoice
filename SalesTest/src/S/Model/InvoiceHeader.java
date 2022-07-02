@@ -1,7 +1,6 @@
 package S.Model;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  *
@@ -10,23 +9,37 @@ import java.util.Date;
 public class InvoiceHeader {
     
     private int num;
-    private Date date;
+    private String date;
     private String Customer;
     private ArrayList<InvoiceLine> lines;
-
-    public InvoiceHeader(int num, Date date, String Customer) {
+    
+    public InvoiceHeader(int num, String date, String Customer) {
         this.num = num;
         this.date = date;
         this.Customer = Customer;
     }
-
+    
     public String getCustomer() {
+        
         return Customer;
     }
 
-    public void setCustomer(String Customer) {
+    public void setCustomer(String Customer) { 
         this.Customer = Customer;
+        
     }
+    
+    public double getInvoiceTotal()
+    {
+        double total = 0 ;
+        for (InvoiceLine line : getLines())
+        {
+            total += line.getLineTotal();
+        }
+        return total;
+    }
+    
+    
 
     public int getNum() {
         return num;
@@ -36,20 +49,30 @@ public class InvoiceHeader {
         this.num = num;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
-
+    
     public ArrayList<InvoiceLine> getLines() {
+        if (lines == null)
+        { lines = new ArrayList<>();
+        }
         return lines;
     }
 
     public void setLines(ArrayList<InvoiceLine> lines) {
         this.lines = lines;
     }
+
+    @Override
+    public String toString() {
+        return "InvoiceHeader{" + "num=" + num + ", date=" + date + ", Customer=" + Customer + '}';
+    }
+
+    
       
 }
