@@ -1,12 +1,11 @@
 package SER;
 
 import S.Controller.ActionHandle;
+import S.Model.InvoiceHeadTableModel;
+import S.Model.InvoiceHeader;
+import java.util.ArrayList;
+import javax.swing.JTable;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -14,12 +13,12 @@ import S.Controller.ActionHandle;
  */
 public class SalesReport extends javax.swing.JFrame {
 
-    /**
-     * Creates new form SalesReport
-     */
     public SalesReport() {
+        actionhandle = new ActionHandle (this);
         initComponents();
+        
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,56 +30,48 @@ public class SalesReport extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        invHeaderTable = new javax.swing.JTable();
+        invHeaderTable.getSelectionModel().addListSelectionListener(actionhandle);
         jButton1 = new javax.swing.JButton();
-        jButton1.addActionListener(h1);
+        jButton1.addActionListener(actionhandle);
         jButton2 = new javax.swing.JButton();
+        jButton2.addActionListener(actionhandle);
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         NumLabel = new javax.swing.JLabel();
-        CustomerLabel = new javax.swing.JLabel();
+        DateLabel = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        invLineTable = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
+        jButton3.addActionListener(actionhandle);
         jButton4 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem1.addActionListener(h1);
+        jMenuItem1.addActionListener(actionhandle);
 
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem2.addActionListener(actionhandle);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        invHeaderTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "No.", "Date", "Customer", "Total"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Integer.class
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-        });
-        jScrollPane1.setViewportView(jTable1);
+        ));
+        jScrollPane1.setViewportView(invHeaderTable);
 
         jButton1.setText("Create New Invoice");
 
         jButton2.setText("Delete Invoice");
-        jButton2.addActionListener(h1);
 
         jLabel1.setText("Invoice No.");
 
@@ -90,15 +81,7 @@ public class SalesReport extends javax.swing.JFrame {
 
         jLabel4.setText("Invoice Total:");
 
-        NumLabel.setText("jLabel5");
-
-        CustomerLabel.setText("jLabel6");
-
-        jLabel7.setText("jLabel7");
-
-        jLabel8.setText("jLabel8");
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        invLineTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -117,14 +100,9 @@ public class SalesReport extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(invLineTable);
 
         jButton3.setText("Save");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
 
         jButton4.setText("Cancel");
 
@@ -134,7 +112,6 @@ public class SalesReport extends javax.swing.JFrame {
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setText("Save File");
-        jMenuItem2.addActionListener(h1);
         jMenu1.add(jMenuItem2);
 
         jMenuBar1.add(jMenu1);
@@ -148,13 +125,14 @@ public class SalesReport extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(50, 50, 50)
                         .addComponent(jButton1)
                         .addGap(32, 32, 32)
-                        .addComponent(jButton2)))
+                        .addComponent(jButton2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(45, 45, 45)
@@ -162,7 +140,7 @@ public class SalesReport extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(29, 29, 29)
-                                .addComponent(CustomerLabel))
+                                .addComponent(DateLabel))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
@@ -183,13 +161,13 @@ public class SalesReport extends javax.swing.JFrame {
                         .addComponent(jButton3)
                         .addGap(55, 55, 55)
                         .addComponent(jButton4)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
@@ -197,7 +175,7 @@ public class SalesReport extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(CustomerLabel))
+                            .addComponent(DateLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
@@ -206,7 +184,7 @@ public class SalesReport extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(10, 10, 10)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -220,10 +198,6 @@ public class SalesReport extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -259,8 +233,10 @@ public class SalesReport extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel CustomerLabel;
+    private javax.swing.JLabel DateLabel;
     private javax.swing.JLabel NumLabel;
+    private javax.swing.JTable invHeaderTable;
+    private javax.swing.JTable invLineTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -277,8 +253,45 @@ public class SalesReport extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
- private ActionHandle h1 = new ActionHandle ();
+ private ActionHandle actionhandle ;
+ private ArrayList<InvoiceHeader> invoiceHeadersList;
+ private InvoiceHeadTableModel hTableModel;
+ 
+  public ActionHandle getActionhandle() {
+        return actionhandle;
+    }
+
+    public ArrayList<InvoiceHeader> getInvoiceHeadersList() {
+        return invoiceHeadersList;
+    }
+
+    public void setInvoiceHeadersList(ArrayList<InvoiceHeader> invoiceHeadersList) {
+        this.invoiceHeadersList = invoiceHeadersList;
+        hTableModel = new InvoiceHeadTableModel(invoiceHeadersList);
+        this.invHeaderTable.setModel(hTableModel);
+    }
+
+    public JTable getInvHeaderTable() {
+        return invHeaderTable;
+    }
+
+    public void setInvHeaderTable(JTable invHeaderTable) {
+        this.invHeaderTable = invHeaderTable;
+    }
+
+    public JTable getInvLineTable() {
+        return invLineTable;
+    }
+
+    public void setInvLineTable(JTable invLineTable) {
+        this.invLineTable = invLineTable;
+    }
+    public void setValue (InvoiceHeader header)
+    {
+        DateLabel.setText(header.getDate());
+        jLabel7.setText(header.getCustomer());
+	jLabel8.setText(String.valueOf(header.getInvoiceTotal()));
+        NumLabel.setText(String.valueOf(header.getNum()));
+    }
 }

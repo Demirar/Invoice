@@ -9,7 +9,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class InvoiceHeadTableModel extends AbstractTableModel{
     private ArrayList<InvoiceHeader> data;
-    private String[] cols = {"ID","Invoice Date","Customer"};
+    private String[] cols = {"ID","Customer","Date"};
     
     public InvoiceHeadTableModel (ArrayList<InvoiceHeader> data){
         this.data = data;

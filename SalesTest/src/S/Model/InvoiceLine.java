@@ -49,9 +49,8 @@ public class InvoiceLine {
         this.price = price;
     }
     public double getLineTotal(){
-        return count * price;
+        return count * price;   
     }
-
     @Override
     public String toString() {
         return "InvoiceLine{" + "header=" + header + ", name=" + name + ", Total=" + getLineTotal() + ", count=" + count + '}';

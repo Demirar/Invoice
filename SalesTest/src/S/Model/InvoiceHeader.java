@@ -38,8 +38,6 @@ public class InvoiceHeader {
         }
         return total;
     }
-    
-    
 
     public int getNum() {
         return num;
@@ -72,7 +70,5 @@ public class InvoiceHeader {
     public String toString() {
         return "InvoiceHeader{" + "num=" + num + ", date=" + date + ", Customer=" + Customer + '}';
     }
-
-    
       
 }

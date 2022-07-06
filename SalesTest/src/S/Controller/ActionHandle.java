@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 import javax.swing.JFileChooser;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 /**
  *
  * @author HAMDY
@@ -58,7 +57,7 @@ public class ActionHandle implements ActionListener, ListSelectionListener {
     }
 
     private void deleteInv() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         JFileChooser a1 = new JFileChooser();
     }
 
     private void loadFile() {
@@ -76,7 +75,7 @@ public class ActionHandle implements ActionListener, ListSelectionListener {
                 for (String headerLine : headerLines) {
                     String[] parts = headerLine.split(",");
                     int id = Integer.parseInt(parts[0]);
-                    InvoiceHeader invHeader = new InvoiceHeader(id, parts[2], parts[1]);
+                    InvoiceHeader invHeader = new InvoiceHeader(id, parts[1], parts[2]);
                     invoiceHeadersList.add(invHeader);
                 }
                 
@@ -118,16 +117,13 @@ public class ActionHandle implements ActionListener, ListSelectionListener {
 
     private void saveFile() {
         JFileChooser fs = new JFileChooser();
-        int a;
-        a = fs.showSaveDialog(fs);
-        /*if (a == JFileChooser.APPROVE_OPTION)
-        {
-            String path;
-            path = fs.getselectedFile().getPath();
-            FileOutputStream fos = null;
-            
-            fos = new FileOutputStream(path);
-        }**/
+            int result = fs.showSaveDialog(frame);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File headerFile = fs.getSelectedFile();
+                //List<String> headerLines = Files.lines(headerPath).collect(Collectors.toList());
+                int a = fs.showSaveDialog(fs);
+       
+                }
     }
     @Override
     public void valueChanged(ListSelectionEvent e) {
@@ -135,7 +131,10 @@ public class ActionHandle implements ActionListener, ListSelectionListener {
         int selectedRow = frame.getInvHeaderTable().getSelectedRow();
         //System.out.println(selectedRow);
         ArrayList<InvoiceLine> lines = frame.getInvoiceHeadersList().get(selectedRow).getLines();
+        frame.setValue(frame.getInvoiceHeadersList().get(selectedRow));
         frame.getInvLineTable().setModel(new RightTableModel(lines));
+        
+        
+        
     }
-
 }

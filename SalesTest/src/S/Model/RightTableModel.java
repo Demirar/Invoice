@@ -30,7 +30,7 @@ public class RightTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         InvoiceLine line = data.get(rowIndex);
         switch (columnIndex) {
-            case 0: return "";
+            case 0: return rowIndex+1;
             case 1:
                 return line.getName();
             case 2:
@@ -45,5 +45,4 @@ public class RightTableModel extends AbstractTableModel {
     public String getColumnName(int column) {
         return cols[column];
     }
-
 }
